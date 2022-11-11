@@ -5,9 +5,15 @@ const products = [
   },
 ];
 
-const notFoundError = { message: 'Product not found' };
+const newProduct = {
+  error: null,
+  output: { 
+    name: 'Corsa azul',
+    id: 10,
+  },
+};
 
 module.exports = {
   products,
-  notFoundError,
+  newProduct,
 };

@@ -9,6 +9,12 @@ const products = [
   },
 ];
 
+const newProduct = {
+  name: 'RTX 3080',
+  id: 56,
+};
+
 module.exports = {
   products,
+  newProduct,
 };
