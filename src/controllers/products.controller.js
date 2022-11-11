@@ -1,9 +1,14 @@
 const { productsService } = require('../services');
 
+const errorMap = require('../utils/errorMap');
+
 const getAllProducts = async (_req, res) => {
   const { error, output } = await productsService.getAllProducts();
 
-  if (error) return res.status(500).send(error);
+  if (error) {
+    const { status, message } = errorMap(error);
+    return res.status(status).json({ message });
+  }
 
   return res.status(200).json(output);
 };
@@ -13,7 +18,10 @@ const getProduct = async (req, res) => {
 
   const { error, output } = await productsService.getProduct(id);
 
-  if (error) return res.status(500).send(error);
+  if (error) {
+    const { status, message } = errorMap(error);
+    return res.status(status).json({ message });
+  }
 
   return res.status(200).json(output);
 };
