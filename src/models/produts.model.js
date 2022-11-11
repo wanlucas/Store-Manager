@@ -8,9 +8,10 @@ const findAll = async () => {
   return result;
 };
 
-const findById = async () => { 
-  const [result] = await connection.execute(
-    'SELECT * FROM products WHERE id = 1',
+const findById = async (id) => { 
+  const [[result]] = await connection.execute(
+    'SELECT * FROM products WHERE id = ?',
+    [id],
   );
 
   return result;
