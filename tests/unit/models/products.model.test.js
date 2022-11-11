@@ -18,7 +18,7 @@ describe('Funcionamento do model products', function () {
   });
 
   it('Requisição de produto por id', async function () {
-    sinon.stub(connection, 'execute').resolves([mocks.products[0]]);
+    sinon.stub(connection, 'execute').resolves([[mocks.products[0]]]);
 
     const result = await productsModel.findById(1);
 
