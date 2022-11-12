@@ -14,7 +14,7 @@ const getProduct = async (id) => {
   return { error: null, output: product };
 };
 
-const createProduct = async (product) => {
+const createProduct = async (product) => {  
   const newProduct = await productsModel.insert(product);
 
   return { error: null, output: newProduct };
