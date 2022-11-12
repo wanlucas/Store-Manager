@@ -1,5 +1,15 @@
 const { productsModel } = require('../models');
 
+const doesProductsExist = async (products) => { 
+    const promises = products.map(async (id) => (
+      productsModel.findById(id)
+    ));
+
+    const result = await Promise.all(promises);
+
+    return result.every((product) => product);
+};
+
 const getAllProducts = async () => {
   const products = await productsModel.findAll();
 
@@ -21,6 +31,7 @@ const createProduct = async (product) => {
 };
 
 module.exports = {
+  doesProductsExist,
   getAllProducts,
   getProduct,
   createProduct,
