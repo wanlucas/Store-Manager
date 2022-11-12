@@ -1,6 +1,7 @@
 const { productsModel } = require('../models');
 
 const doesProductsExist = async (products) => { 
+  try {
     const promises = products.map(async (id) => (
       productsModel.findById(id)
     ));
@@ -8,26 +9,41 @@ const doesProductsExist = async (products) => {
     const result = await Promise.all(promises);
 
     return result.every((product) => product);
+  } catch (error) {
+    return { error: error.message };
+  }
 };
 
 const getAllProducts = async () => {
-  const products = await productsModel.findAll();
+  try {
+    const products = await productsModel.findAll();
 
-  return { error: null, output: products };
+    return { error: null, output: products };
+  } catch (error) {
+    return { error: error.message };
+  }
 };
 
 const getProduct = async (id) => { 
-  const product = await productsModel.findById(id);
+  try {
+    const product = await productsModel.findById(id);
 
-  if (!product) return { error: 'PRODUCT_NOT_FOUND' };
+    if (!product) return { error: 'PRODUCT_NOT_FOUND' };
 
-  return { error: null, output: product };
+    return { error: null, output: product };
+  } catch (error) {
+    return { error: error.message };
+  }
 };
 
 const createProduct = async (product) => {  
-  const newProduct = await productsModel.insert(product);
+  try {
+    const newProduct = await productsModel.insert(product);
 
-  return { error: null, output: newProduct };
+    return { error: null, output: newProduct };
+  } catch (error) {
+    return { error: error.message };
+  }
 };
 
 module.exports = {

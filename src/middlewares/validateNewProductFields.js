@@ -1,14 +1,9 @@
 const { validateProduct } = require('./validations/validate');
 
 const validateNewProductFields = (req, res, next) => { 
-  const { name } = req.body;
-  const error = validateProduct({ name });
+  const { error, status } = validateProduct(req.body);
 
-  if (error) {
-    const status = !name ? 400 : 422;
-
-    return res.status(status).json({ message: error.message });
-  }
+  if (error) return res.status(status).json({ message: error });
 
   return next();
 };

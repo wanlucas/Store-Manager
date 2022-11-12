@@ -8,9 +8,9 @@ const formatError = (error) => ({
 const validateProduct = (product) => { 
   const { error } = productSchema.validate(product);
 
-  if (error) return error;
+  if (error) return formatError(error);
 
-  return null;
+  return { error: null };
 };
 
 const validateSale = (sale) => { 
