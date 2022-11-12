@@ -73,6 +73,21 @@ describe('Funcionamento do controller products', function () {
       expect(res.status).to.have.been.calledWith(status);
       expect(res.json).to.have.been.calledWith({ message });
     });
+
+    it('Tratamendo de erro na requisição de produtos', async function () {
+      sinon.stub(productsService, 'getAllProducts').resolves({ error: 'INTERNAL_ERROR' });
+
+      const res = {};
+      const req = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.getAllProducts(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith({ message: 'Something went wrong' });
+    });
   });
 
   describe('POST', function () { 
@@ -93,6 +108,25 @@ describe('Funcionamento do controller products', function () {
 
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith(mocks.newProduct.output);
+    });
+
+    it('Tratamendo de erro na criação de produto', async function () {
+      sinon.stub(productsService, 'createProduct').resolves({ error: 'INTERNAL_ERROR' });
+
+      const res = {};
+      const req = {
+        body: {
+          name: 'BOLINHA DE GORFE',
+        },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.createProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith({ message: 'Something went wrong' });
     });
   });
 });
