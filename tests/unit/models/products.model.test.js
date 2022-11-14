@@ -36,4 +36,14 @@ describe('Funcionamento do model products', function () {
       expect(result).to.deep.equal({ ...mocks.newProduct, id: 3 });
     });
   });
+
+  describe('PUT', function () {
+    it('Atualização de um produto', async function () {
+      sinon.stub(connection, 'execute').resolves();
+      
+      const result = await productsModel.update(1, { name: 'xulapa' });
+
+      expect(result).to.deep.equal({ name: 'xulapa' });
+    });
+  });
 });

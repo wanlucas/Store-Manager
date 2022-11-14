@@ -36,4 +36,15 @@ describe('Funcionamento do service products', function () {
       expect(result).to.deep.equal({ error: null, output: mocks.newProduct });
     });
   });
+
+  describe('PUT', function () {
+    it('Atualização de um produto', async function () {
+      sinon.stub(productsModel, 'findById').resolves({ name: 'xulapa' });
+      sinon.stub(productsModel, 'update').resolves({ name: 'xulapa' });
+
+      const result = await productsService.updateProduct(1, { name: 'xulapa' });
+
+      expect(result).to.deep.equal({ error: null, output: { name: 'xulapa' } });
+    });
+  });
 });

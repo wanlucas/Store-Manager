@@ -1,5 +1,12 @@
 const { products } = require('../../mocks/products.mock');
 
+const updatedProduct = {
+  error: null,
+  output: {
+    name: 'Caneta azul',
+  },
+};
+
 const newProduct = {
   error: null,
   output: { 
@@ -10,5 +17,6 @@ const newProduct = {
 
 module.exports = {
   products,
+  updatedProduct,
   newProduct,
 };

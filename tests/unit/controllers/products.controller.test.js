@@ -94,4 +94,23 @@ describe('Funcionamento do controller products', function () {
       expect(res.json).to.have.been.calledWith({ message: 'Something went wrong' });
     });
   });
+
+  describe('PUT', function () {
+    it('Atualização de produto', async function () {
+      sinon.stub(productsService, 'updateProduct').resolves(mocks.updatedProduct);
+
+      const { req, res } = mockController({
+          body: { name: 'Caneta azul' },
+          params: { id: 1 },
+       });
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({ name: 'Caneta azul' });
+    });
+  });
 });
