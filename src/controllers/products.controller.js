@@ -56,14 +56,14 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => { 
   const { id } = req.params;
 
-  const { error, output } = await productsService.deleteProduct(id);
+  const { error } = await productsService.deleteProduct(id);
 
   if (error) {
     const { status, message } = errorMap(error);
     return res.status(status).json({ message });
   }
 
-  return res.status(204).json(output);
+  return res.status(204).end();
 };
 
 module.exports = {

@@ -66,9 +66,9 @@ const deleteProduct = async (id) => {
       return { error: 'PRODUCT_NOT_FOUND' };
     }
 
-    const result = await productsModel.erase(id);
+    await productsModel.erase(id);
 
-    return { error: null, output: result };
+    return { error: null };
   } catch (error) {
     return { error: error.message };
   }

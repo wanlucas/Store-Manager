@@ -43,12 +43,10 @@ const update = async (id, newProduct) => {
 };
 
 const erase = async (id) => { 
-  const [{ affectedRows }] = await connection.execute(
+  await connection.execute(
     'DELETE FROM products WHERE id = ?',
     [id],
   );
-
-  return { affectedRows };
 };
 
 module.exports = {
