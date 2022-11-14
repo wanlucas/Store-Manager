@@ -2,6 +2,10 @@ const { productsModel } = require('../models');
 
 const doesProductsExist = async (products) => { 
   try {
+    if (typeof products === 'string') {
+      return productsModel.findById(products);
+    }
+
     const promises = products.map(async ({ productId }) => (
       productsModel.findById(productId)
     ));
@@ -48,7 +52,7 @@ const createProduct = async (product) => {
 
 const updateProduct = async (id, newProduct) => {
   try {
-    if (!await doesProductsExist([id])) {
+    if (!await doesProductsExist(id)) {
       return { error: 'PRODUCT_NOT_FOUND' };
     }
 
@@ -62,7 +66,7 @@ const updateProduct = async (id, newProduct) => {
 
 const deleteProduct = async (id) => { 
   try {
-    if (!await doesProductsExist([id])) {
+    if (!await doesProductsExist(id)) {
       return { error: 'PRODUCT_NOT_FOUND' };
     }
 
