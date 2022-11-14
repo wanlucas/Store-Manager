@@ -1,6 +1,16 @@
 const { salesModel } = require('../models');
 const productsService = require('./products.service');
 
+const doesSaleExist = async (id) => {
+  try {
+    const [result] = await salesModel.findById(id);
+
+    return result !== undefined;
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
 const getSales = async () => {
   try {
     const sales = await salesModel.findAll();
@@ -25,9 +35,7 @@ const getSaleById = async (id) => {
 
 const createSale = async (sale) => {
   try {
-    const ids = sale.map(({ productId }) => productId);
-
-    if (!await productsService.doesProductsExist(ids)) {
+    if (!await productsService.doesProductsExist(sale)) {
       return { error: 'PRODUCT_NOT_FOUND' };
     }
 
@@ -39,9 +47,27 @@ const createSale = async (sale) => {
   }
 };
 
+const updateSale = async (id, newSale) => {
+  try {
+    if (!await doesSaleExist(id)) {
+      return { error: 'SALE_NOT_FOUND' };
+    }
+
+    if (!await productsService.doesProductsExist(newSale)) {
+      return { error: 'PRODUCT_NOT_FOUND' };
+    }
+
+    const result = await salesModel.update(id, newSale);
+
+    return { error: null, output: result };
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
 const deleteSale = async (id) => { 
   try {
-    if (!await productsService.doesProductsExist([id])) {
+    if (!await doesSaleExist(id)) {
       return { error: 'SALE_NOT_FOUND' };
     }
 
@@ -54,8 +80,10 @@ const deleteSale = async (id) => {
 };
 
 module.exports = {
+  doesSaleExist,
   getSales,
   getSaleById,
   createSale,
+  updateSale,
   deleteSale,
 };

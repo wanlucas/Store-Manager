@@ -2,8 +2,8 @@ const { productsModel } = require('../models');
 
 const doesProductsExist = async (products) => { 
   try {
-    const promises = products.map(async (id) => (
-      productsModel.findById(id)
+    const promises = products.map(async ({ productId }) => (
+      productsModel.findById(productId)
     ));
 
     const result = await Promise.all(promises);

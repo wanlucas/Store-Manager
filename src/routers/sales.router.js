@@ -6,11 +6,13 @@ const validateNewSaleFields = require('../middlewares/validateNewSaleFields');
 
 const router = express.Router();
 
-router.get('/',
-  salesController.getSales);
+router.get('/', salesController.getSales);
 
-router.get('/:id',
-  salesController.getSaleById);
+router.get('/:id', salesController.getSaleById);
+
+router.put('/:id',
+  validateNewSaleFields,
+  salesController.updateSale);
 
 router.post('/',
   validateNewSaleFields,
