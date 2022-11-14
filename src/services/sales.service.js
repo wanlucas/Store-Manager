@@ -39,8 +39,23 @@ const createSale = async (sale) => {
   }
 };
 
+const deleteSale = async (id) => { 
+  try {
+    if (!await productsService.doesProductsExist([id])) {
+      return { error: 'SALE_NOT_FOUND' };
+    }
+
+    await salesModel.erase(id);
+
+    return { error: null };
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
 module.exports = {
   getSales,
   getSaleById,
   createSale,
+  deleteSale,
 };
