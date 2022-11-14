@@ -53,7 +53,7 @@ describe('Funcionamento do model products', function () {
 
       const result = await productsModel.erase(1);
 
-      expect(result).to.deep.equal({ affectedRows: 1 });
+      expect(result).to.equal();
     });
   });
 });

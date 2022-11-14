@@ -85,9 +85,6 @@ describe('Funcionamento do controller products', function () {
 
       const { req, res } = mockController({ body: { name: 'BOLINHA DE GORFE' } });
 
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-
       await productsController.createProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(500);
@@ -104,9 +101,6 @@ describe('Funcionamento do controller products', function () {
           params: { id: 1 },
        });
 
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-
       await productsController.updateProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
@@ -120,13 +114,12 @@ describe('Funcionamento do controller products', function () {
 
       const { req, res } = mockController({ params: { id: 1 } });
 
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
+      res.end = sinon.stub().returns();
 
       await productsController.deleteProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(204);
-      expect(res.json).to.have.been.calledWith({ name: 'Caneta azul' });
+      expect(res.end).to.have.been.calledWith();
     });
   });
 });

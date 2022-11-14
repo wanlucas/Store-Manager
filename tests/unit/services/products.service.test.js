@@ -55,7 +55,7 @@ describe('Funcionamento do service products', function () {
 
       const result = await productsService.deleteProduct(1);
 
-      expect(result).to.deep.equal({ error: null, output: { affectedRows: 2 } });
+      expect(result).to.deep.equal({ error: null });
     });
   });
 });
