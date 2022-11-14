@@ -10,6 +10,10 @@ router.get('/', productsController.getAllProducts);
 
 router.get('/:id', productsController.getProduct);
 
+router.put('/:id',
+  validateNewProductFields,
+  productsController.updateProduct);
+
 router.post('/',
   validateNewProductFields,
   productsController.createProduct);
