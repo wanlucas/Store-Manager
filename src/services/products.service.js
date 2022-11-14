@@ -60,10 +60,25 @@ const updateProduct = async (id, newProduct) => {
   }
 };
 
+const deleteProduct = async (id) => { 
+  try {
+    if (!await doesProductsExist([id])) {
+      return { error: 'PRODUCT_NOT_FOUND' };
+    }
+
+    const result = await productsModel.erase(id);
+
+    return { error: null, output: result };
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
 module.exports = {
   doesProductsExist,
   getAllProducts,
   getProduct,
   createProduct,
   updateProduct,
+  deleteProduct,
 };
