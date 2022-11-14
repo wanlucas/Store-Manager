@@ -9,6 +9,8 @@ const newSale = [
   },
 ];
 
+const { sales } = require('../../mocks/sales.mocks');
+
 const saleCreatedSuccessfully = {
   insertId: 5,
   affectedRows: 3,
@@ -22,4 +24,5 @@ module.exports = {
   newSale,
   saleCreatedSuccessfully,
   saleCreationFailed,
+  sales,
 };

@@ -9,6 +9,9 @@ const newSales = [
   },
 ];
 
+const { sales } = require('../../mocks/sales.mocks');
+
 module.exports = {
   newSales,
+  sales,
 };

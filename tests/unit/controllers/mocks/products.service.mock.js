@@ -1,9 +1,4 @@
-const products = [
-  {
-    id: 1,
-    name: 'Martelo de Thor',
-  },
-];
+const { products } = require('../../mocks/products.mock');
 
 const newProduct = {
   error: null,

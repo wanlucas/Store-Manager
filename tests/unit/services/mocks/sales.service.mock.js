@@ -9,11 +9,14 @@ const newSales = [
   },
 ];
 
+const { sales } = require('../../mocks/sales.mocks');
+
 const saleCreationFailed = {
   message: 'Something went wrong',
 };
 
 module.exports = {
   newSales,
+  sales,
   saleCreationFailed,
 };

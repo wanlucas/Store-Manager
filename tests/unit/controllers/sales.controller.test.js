@@ -10,8 +10,46 @@ const { salesController } = require('../../../src/controllers');
 
 const mocks = require('./mocks/sales.service.mock');
 
+const mockController = (reqValue) => {
+  const res = {};
+  const req = reqValue || {};
+
+  res.status = sinon.stub().returns(res);
+  res.json = sinon.stub().returns();
+  
+  return { req, res };
+};
+
 describe('Funcionamento do controller sales', function () {
   afterEach(sinon.restore);
+
+  describe('GET', function () {
+    it('Requisição de vendas', async function () {
+      sinon.stub(salesService, 'getSales').resolves(
+        { error: null, output: mocks.sales },
+      );
+
+      const { req, res } = mockController();
+
+      await salesController.getSales(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mocks.sales);
+    });
+
+    it('Requisição de vendas por id', async function () {
+      sinon.stub(salesService, 'getSaleById').resolves(
+        { error: null, output: mocks.sales[0] },
+      );
+
+      const { req, res } = mockController({ params: { id: 1 } });
+
+      await salesController.getSaleById(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mocks.sales[0]);
+    });
+  });
 
   describe('POST', function () {
     it('Criação de um nova venda', async function () { 
@@ -20,13 +58,7 @@ describe('Funcionamento do controller sales', function () {
         output: mocks.saleCreatedSuccessfully,
       });
 
-      const res = {};
-      const req = {
-        body: mocks.newSale,
-      };
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
+      const { req, res } = mockController({ body: mocks.newSale });
 
       await salesController.createSale(req, res);
 
@@ -37,11 +69,7 @@ describe('Funcionamento do controller sales', function () {
     it('Tratamendo de erro na criação de venda', async function () {
       sinon.stub(salesService, 'createSale').resolves({ error: 'error' });
 
-      const res = {};
-      const req = {};
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
+      const { req, res } = mockController();
 
       await salesController.createSale(req, res);
 
