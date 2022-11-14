@@ -9,6 +9,11 @@ const newSales = [
   },
 ];
 
+const createdSale = {
+  itemsSold: newSales,
+  insertId: 3,
+};
+
 const { sales } = require('../../mocks/sales.mocks');
 
 const saleCreationFailed = {
@@ -19,4 +24,5 @@ module.exports = {
   newSales,
   sales,
   saleCreationFailed,
+  createdSale,
 };

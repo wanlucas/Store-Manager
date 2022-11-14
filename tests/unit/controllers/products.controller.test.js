@@ -113,4 +113,20 @@ describe('Funcionamento do controller products', function () {
       expect(res.json).to.have.been.calledWith({ name: 'Caneta azul' });
     });
   });
+
+  describe('DELETE', function () {
+    it('Exclusão de produto', async function () {
+      sinon.stub(productsService, 'deleteProduct').resolves(mocks.updatedProduct);
+
+      const { req, res } = mockController({ params: { id: 1 } });
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.json).to.have.been.calledWith({ name: 'Caneta azul' });
+    });
+  });
 });

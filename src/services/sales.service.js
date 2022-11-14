@@ -1,5 +1,5 @@
 const { salesModel } = require('../models');
-const { doesProductsExist } = require('./products.service');
+const productsService = require('./products.service');
 
 const getSales = async () => {
   try {
@@ -27,7 +27,7 @@ const createSale = async (sale) => {
   try {
     const ids = sale.map(({ productId }) => productId);
 
-    if (!await doesProductsExist(ids)) {
+    if (!await productsService.doesProductsExist(ids)) {
       return { error: 'PRODUCT_NOT_FOUND' };
     }
 

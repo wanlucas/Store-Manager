@@ -39,11 +39,21 @@ describe('Funcionamento do model products', function () {
 
   describe('PUT', function () {
     it('Atualização de um produto', async function () {
-      sinon.stub(connection, 'execute').resolves();
+      sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
       
       const result = await productsModel.update(1, { name: 'xulapa' });
 
-      expect(result).to.deep.equal({ name: 'xulapa' });
+      expect(result).to.deep.equal({ name: 'xulapa', id: 1 });
+    });
+  });
+
+  describe('DELETE', function () {
+    it('Exclusão de um produto', async function () {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+      const result = await productsModel.erase(1);
+
+      expect(result).to.deep.equal({ affectedRows: 1 });
     });
   });
 });

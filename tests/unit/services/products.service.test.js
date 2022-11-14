@@ -47,4 +47,15 @@ describe('Funcionamento do service products', function () {
       expect(result).to.deep.equal({ error: null, output: { name: 'xulapa' } });
     });
   });
+
+  describe('DELETE', function () { 
+    it('Exclusão de um produto', async function () {
+      sinon.stub(productsModel, 'findById').resolves({ name: 'xulapa' });
+      sinon.stub(productsModel, 'erase').resolves({ affectedRows: 2 });
+
+      const result = await productsService.deleteProduct(1);
+
+      expect(result).to.deep.equal({ error: null, output: { affectedRows: 2 } });
+    });
+  });
 });
