@@ -10,6 +10,7 @@ const { productsController } = require('../../../src/controllers');
 
 const errorMap = require('../../../src/utils/errorMap');
 const mocks = require('./mocks/products.service.mock');
+const mockController = require('./utils/mockController');
 
 describe('Funcionamento do controller products', function () {
   afterEach(sinon.restore);
@@ -20,12 +21,9 @@ describe('Funcionamento do controller products', function () {
         { error: null, output: mocks.products },
       );
 
-      const res = {};
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-
-      await productsController.getAllProducts({}, res);
+      const { req, res } = mockController();
+  
+      await productsController.getAllProducts(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(mocks.products);
@@ -34,15 +32,7 @@ describe('Funcionamento do controller products', function () {
     it('Requisição de produto por id', async function () {
       sinon.stub(productsService, 'getProduct').resolves(mocks.products[0]);
 
-      const res = {};
-      const req = {
-        params: {
-          id: 1,
-        },
-      };
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
+      const { req, res } = mockController({ params: { id: 1 } });
 
       await productsController.getProduct(req, res);
 
@@ -58,15 +48,7 @@ describe('Funcionamento do controller products', function () {
         { error, output: message },
       );
 
-      const res = {};
-      const req = {
-        params: {
-          id: 1,
-        },
-      };
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
+      const { req, res } = mockController({ params: { id: 1 } });
 
       await productsController.getProduct(req, res);
 
@@ -77,11 +59,7 @@ describe('Funcionamento do controller products', function () {
     it('Tratamendo de erro na requisição de produtos', async function () {
       sinon.stub(productsService, 'getAllProducts').resolves({ error: 'INTERNAL_ERROR' });
 
-      const res = {};
-      const req = {};
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
+      const { req, res } = mockController();
 
       await productsController.getAllProducts(req, res);
 
@@ -94,15 +72,7 @@ describe('Funcionamento do controller products', function () {
     it('Criação de um novo produto', async function () {
       sinon.stub(productsService, 'createProduct').resolves(mocks.newProduct);
 
-      const res = {};
-      const req = {
-        body: {
-          name: mocks.newProduct.name,
-        },
-      };
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
+      const { req, res } = mockController({ body: { name: mocks.newProduct.name } });
 
       await productsController.createProduct(req, res);
 
@@ -113,12 +83,7 @@ describe('Funcionamento do controller products', function () {
     it('Tratamendo de erro na criação de produto', async function () {
       sinon.stub(productsService, 'createProduct').resolves({ error: 'INTERNAL_ERROR' });
 
-      const res = {};
-      const req = {
-        body: {
-          name: 'BOLINHA DE GORFE',
-        },
-      };
+      const { req, res } = mockController({ body: { name: 'BOLINHA DE GORFE' } });
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();

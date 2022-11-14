@@ -9,16 +9,7 @@ const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
 
 const mocks = require('./mocks/sales.service.mock');
-
-const mockController = (reqValue) => {
-  const res = {};
-  const req = reqValue || {};
-
-  res.status = sinon.stub().returns(res);
-  res.json = sinon.stub().returns();
-  
-  return { req, res };
-};
+const mockController = require('./utils/mockController');
 
 describe('Funcionamento do controller sales', function () {
   afterEach(sinon.restore);
