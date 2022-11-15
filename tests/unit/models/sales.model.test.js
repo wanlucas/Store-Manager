@@ -37,4 +37,24 @@ describe('Funcionamento do model sales', function () {
       expect(result).to.deep.equal({ id: 5, itemsSold: mocks.newSales });
     });
   });
+
+  describe('PUT', function () {
+    it('Atualização de venda', async function () {
+      sinon.stub(connection, 'execute');
+
+      const result = await salesModel.update(1, mocks.newSales);
+
+      expect(result).to.deep.equal({ saleId: 1, itemsUpdated: mocks.newSales });
+    });
+  });
+
+  describe('DELETE', function () {
+    it('Exclusão de venda', async function () {
+      sinon.stub(connection, 'execute');
+
+      const result = await salesModel.erase(1);
+
+      expect(result).to.deep.equal();
+    });
+  });
 });

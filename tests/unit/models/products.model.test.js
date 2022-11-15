@@ -18,6 +18,14 @@ describe('Funcionamento do model products', function () {
       expect(result).to.deep.equal(mocks.products);
     });
 
+    it('Busca de produtos', async function () {
+      sinon.stub(connection, 'execute').resolves([mocks.products]);
+
+      const result = await productsModel.query();
+
+      expect(result).to.deep.equal(mocks.products);
+    });
+
     it('Requisição de produto por id', async function () {
       sinon.stub(connection, 'execute').resolves([[mocks.products[0]]]);
 
