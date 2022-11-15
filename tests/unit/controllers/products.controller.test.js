@@ -29,6 +29,39 @@ describe('Funcionamento do controller products', function () {
       expect(res.json).to.have.been.calledWith(mocks.products);
     });
 
+    it('Tratamendo de erro na requisição de produtos', async function () {
+      sinon.stub(productsService, 'getAllProducts').resolves({ error: 'error' });
+
+      const { req, res } = mockController();
+
+      await productsController.getAllProducts(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith(mocks.internalError);
+    });
+
+    it('Busca de produto', async function () {
+      sinon.stub(productsService, 'searchProducts').resolves(mocks.products[0]);
+
+      const { req, res } = mockController({ query: { q: 'M' } });
+
+      await productsController.searchProducts(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mocks.products[0]);
+    });
+
+    it('Tratamendo de erro na busca de produto', async function () {
+      sinon.stub(productsService, 'searchProducts').resolves({ error: 'error' });
+
+      const { req, res } = mockController({ query: { q: 'M' } });
+
+      await productsController.searchProducts(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith(mocks.internalError);
+    });
+
     it('Requisição de produto por id', async function () {
       sinon.stub(productsService, 'getProduct').resolves(mocks.products[0]);
 
@@ -38,6 +71,17 @@ describe('Funcionamento do controller products', function () {
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith();
+    });
+
+    it('Tratamendo de erro na requisição de produto por id', async function () {
+      sinon.stub(productsService, 'getProduct').resolves({ error: 'error' });
+
+      const { req, res } = mockController({ params: { id: 1 } });
+
+      await productsController.getProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith(mocks.internalError);
     });
 
     it('Falha ao buscar id inexistente', async function () {
@@ -54,17 +98,6 @@ describe('Funcionamento do controller products', function () {
 
       expect(res.status).to.have.been.calledWith(status);
       expect(res.json).to.have.been.calledWith({ message });
-    });
-
-    it('Tratamendo de erro na requisição de produtos', async function () {
-      sinon.stub(productsService, 'getAllProducts').resolves({ error: 'INTERNAL_ERROR' });
-
-      const { req, res } = mockController();
-
-      await productsController.getAllProducts(req, res);
-
-      expect(res.status).to.have.been.calledWith(500);
-      expect(res.json).to.have.been.calledWith({ message: 'Something went wrong' });
     });
   });
 
@@ -106,6 +139,20 @@ describe('Funcionamento do controller products', function () {
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith({ name: 'Caneta azul' });
     });
+
+    it('Tratamendo de erro na atualização de produto', async function () {
+      sinon.stub(productsService, 'updateProduct').resolves({ error: 'error' });
+
+      const { req, res } = mockController({ 
+        params: { id: 1 },
+        body: mocks.newProduct,
+      });
+
+      await productsController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith(mocks.internalError);
+    });
   });
 
   describe('DELETE', function () {
@@ -120,6 +167,17 @@ describe('Funcionamento do controller products', function () {
 
       expect(res.status).to.have.been.calledWith(204);
       expect(res.end).to.have.been.calledWith();
+    });
+
+    it('Tratamendo de erro na exclusão de produto', async function () {
+      sinon.stub(productsService, 'deleteProduct').resolves({ error: 'error' });
+
+      const { req, res } = mockController({ params: { id: 1 } });
+
+      await productsController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith(mocks.internalError);
     });
   });
 });

@@ -1,5 +1,7 @@
 const { products } = require('../../mocks/products.mock');
 
+const { internalError } = require('../../mocks/generics');
+
 const updatedProduct = {
   error: null,
   output: {
@@ -19,4 +21,5 @@ module.exports = {
   products,
   updatedProduct,
   newProduct,
+  internalError,
 };
