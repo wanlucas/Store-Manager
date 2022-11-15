@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 
 const { salesModel, productsModel } = require('../../../src/models');
-const { salesService, productsService } = require('../../../src/services');
+const { salesService } = require('../../../src/services');
 
 const mocks = require('./mocks/sales.service.mock');
 
@@ -53,7 +53,7 @@ describe('Funcionamento do service sales', function () {
 
   describe('POST', function () {
     it('Criação de um nova venda', async function () {
-      sinon.stub(salesModel, 'findById').resolves([]);
+      sinon.stub(productsModel, 'findById').resolves([]);
       sinon.stub(salesModel, 'insert').resolves(mocks.createdSale);
 
       const result = await salesService.createSale(mocks.newSales);
@@ -99,10 +99,11 @@ describe('Funcionamento do service sales', function () {
     });
 
     it('Falha ao tentar atualizar venda com produto inexistente', async function () {
-      sinon.stub(productsService, 'doesProductsExist').resolves(false);
+      sinon.stub(salesModel, 'findById').resolves(['item']);
+      sinon.stub(productsModel, 'findById').resolves();
       sinon.stub(salesModel, 'update').resolves();
 
-      const result = await salesService.updateSale(mocks.newSales);
+      const result = await salesService.updateSale(1, mocks.newSales);
 
       expect(result).to.deep.equal({ error: 'PRODUCT_NOT_FOUND' });
     });
