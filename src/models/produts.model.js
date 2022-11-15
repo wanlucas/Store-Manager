@@ -17,6 +17,14 @@ const findById = async (id) => {
   return result;
 };
 
+const query = async (q) => { 
+  const [result] = await connection.execute(
+    `SELECT * FROM products WHERE name LIKE '${q}%'`,
+  );
+
+  return result;
+};
+
 const insert = async (product) => { 
   const { name } = product;
 
@@ -52,6 +60,7 @@ const erase = async (id) => {
 module.exports = {
   findAll,
   findById,
+  query,
   insert,
   update,
   erase,

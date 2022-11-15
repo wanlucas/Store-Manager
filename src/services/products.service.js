@@ -40,6 +40,16 @@ const getProduct = async (id) => {
   }
 };
 
+const searchProducts = async (q) => {
+  try {
+    const products = await productsModel.query(q);
+
+    return { error: null, output: products };
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
 const createProduct = async (product) => {  
   try {
     const newProduct = await productsModel.insert(product);
@@ -82,6 +92,7 @@ module.exports = {
   doesProductsExist,
   getAllProducts,
   getProduct,
+  searchProducts,
   createProduct,
   updateProduct,
   deleteProduct,
