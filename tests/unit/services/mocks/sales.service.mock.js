@@ -8,21 +8,24 @@ const newSales = [
     quantity: 5,
   },
 ];
+const internalError = require('../../mocks/generics');
 
 const createdSale = {
   itemsSold: newSales,
   insertId: 3,
 };
 
-const { sales } = require('../../mocks/sales.mocks');
-
-const saleCreationFailed = {
-  message: 'Something went wrong',
+const updatedSale = {
+  saleId: 1,
+  itemsUpdated: newSales,
 };
+
+const { sales } = require('../../mocks/sales.mocks');
 
 module.exports = {
   newSales,
   sales,
-  saleCreationFailed,
+  internalError,
+  updatedSale,
   createdSale,
 };

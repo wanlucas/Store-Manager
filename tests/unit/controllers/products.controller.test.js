@@ -41,14 +41,14 @@ describe('Funcionamento do controller products', function () {
     });
 
     it('Busca de produto', async function () {
-      sinon.stub(productsService, 'searchProducts').resolves(mocks.products[0]);
+      sinon.stub(productsService, 'searchProducts').resolves(mocks.newProduct);
 
       const { req, res } = mockController({ query: { q: 'M' } });
 
       await productsController.searchProducts(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
-      expect(res.json).to.have.been.calledWith(mocks.products[0]);
+      expect(res.json).to.have.been.calledWith(mocks.newProduct.output);
     });
 
     it('Tratamendo de erro na busca de produto', async function () {
