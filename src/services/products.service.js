@@ -5,7 +5,7 @@ const doesProductsExist = async (products) => {
     if (typeof products === 'string') {
       return productsModel.findById(products);
     }
-
+ 
     const promises = products.map(async ({ productId }) => (
       productsModel.findById(productId)
     ));
